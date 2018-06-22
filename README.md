@@ -17,6 +17,19 @@ We will be **measuring, and analyzing the failure loads and locations of test sp
 
 This repo has a MATLAB code to analyze the data we collected and along with the actual dat, and lab instructions.
 
+Our group has been **divided into two groups.** Each group tested two samples of Aluminum alloys, one is brittle and one is ductile. Fotherby, and Fuentes were in the same group, and Al-Ameri and Hartman were on the same group. In MATLAB Script data will be referred to using the *type of Aluminum alloy* used and also the *last names initials* for the group who measured the data being analyzed. The code is divided into sections so it is easier to run it for a desired section. 
+
+***
+
+## Files
+
+**Measurement:** .mat file that has measured thickness, and width for each alloy to estimate the cross sectional area. The measures were taken using Electronic Caliper Measuring Tool.
+
+**Data:** .mat file that has the force applied and elongation data collected. there are four different .mat files, 2 .mat files per group for each alloy.
+
+***
+
+
 The Lab instructions is from the course page provided by our course instructor, *Jelliffe Jackson*, **All rights are reserved to him and to CU Aerospace engineering department.**
 
 
