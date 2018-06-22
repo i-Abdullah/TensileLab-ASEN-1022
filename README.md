@@ -5,10 +5,10 @@
 This repo contains all of our work for a lab experiment done by my classmates and I :
 
 
-##### - Gera
-##### - Abdulla Al Ameri
-##### - Sam Harman
-##### - Raymie
+##### Geraldine Fuentes
+##### Raymie Fotherby
+##### Sam Hartman
+##### Abdulla Al Ameri
 
 ***
 
