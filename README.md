@@ -21,11 +21,16 @@ Our group has been **divided into two groups.** Each group tested two samples of
 
 ***
 
-## Files
+## Files/Folders
 
-**Measurement:** .mat file that has measured thickness, and width for each alloy to estimate the cross sectional area. The measures were taken using Electronic Caliper Measuring Tool.
+**CollectedData:** Folder that contains the collected data converted to Excel file to be imported to MATLAB easily and converted to .mat file.
 
-**Data:** .mat file that has the force applied and elongation data collected. there are four different .mat files, 2 .mat files per group for each alloy.
+
+** DataMeasurements:** MATLAB Script that will convert collected data into .mat file that has the force applied and elongation data collected. In addition, the .mat file has average measured thickness, and width for each alloy to estimate the cross sectional area. The measures were taken using Electronic Caliper Measuring Tool.
+
+**Group_Brittle/Ductile.mat:** MATLAB files that has all of the data for both groups. Two files per type of alloy.
+
+**TensileLab.m:** The script to analyze the data.
 
 ***
 
