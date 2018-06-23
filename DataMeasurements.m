@@ -25,6 +25,10 @@ ElongationE_SA = SA_SampleE(:,2); % Extracting Elongation
 
 % Raymie and Geraldine
 
+RG_SampleE = xlsread('CollectedData/RGData.xlsx','SampleE'); %Importing collected data
+ForceE_RG = RG_SampleE(:,1); % Extracting force.
+ElongationE_RG = RG_SampleE(:,2); % Extracting Elongation
+
 
 % Saving data as .mat file
 

@@ -47,25 +47,58 @@ Area_SA_E = ThicknessSA_E * WidthSA_E ; % Calculating the estimated cross sectio
 
 
 Stress_SA_C = (ForceC_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
-Stress_SA_E = (ForceE_SA ./ Area_SA_C).* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_SA_E = (ForceE_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_RG_E = (ForceE_RG ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 
 
-Strain_SA_C = ElongationC_SA ./ 1 ; % Calculating Strain ( Elongation / length )
-Strain_SA_E = ElongationE_SA ./ 1 ; % Calculating Strain ( Elongation / length )
+Strain_SA_C = ElongationC_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
+Strain_SA_E = ElongationE_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
+Strain_RG_E = ElongationE_RG .* 0.0635 ; % Calculating Strain ( Elongation / length )
+
 
 %% Elminating the data that caues noise
 
 %Elminate negative stress and related strain.
 
-Stress_SA_E(Stress_SA_E < 0 ) = [];
-Stress_SA_C(Stress_SA_C < 0 ) = [];
-Strain_SA_E(723) = [];
-Strain_SA_E(722) = [];
-Strain_SA_C(121) = [];
-Strain_SA_C(120) = [];
+indi = find(Stress_SA_E<0);
+Strain_SA_E(indi) = [];
+Stress_SA_E(indi) = [];
+
+indi = find(Stress_SA_C<0);
+Strain_SA_C(indi) = [];
+Stress_SA_C(indi) = [];
+
+Strain_SA_C(1) = 0;
+Strain_SA_E(1) = 0;
+Stress_SA_C(1) = 0;
+Strain_SA_E(1) = 0;
+
+
+%% don't run yet!!
+
+%{
+Strain_SA_C(1) = 0;
+Strain_SA_E(1) = 0;
+Stress_SA_C(1) = 0;
+Strain_SA_E(1) = 0;
+
+indi = find(Strain_SA_E<0);
+Strain_SA_E(indi) = [];
+Stress_SA_E(indi) = [];
+
+indi = find(Strain_SA_C<0);
+Strain_SA_C(indi) = [];
+Stress_SA_C(indi) = [];
+
+}
+
+%}
+
 
 %% Estimating Young's modulus to use it to elminate  the data the causes noise
 
+%{
+    
 %We can see from the data that between 200 MPa and 250 we have linarity,
 %will average the data there for stress and strain to get estimate of
 %youngs mouduls and then elminate the data that has a tangent line falls
@@ -77,7 +110,7 @@ Youngs_SA_E = mean( (Stress_SA_E(160:197)) ./ (Strain_SA_E(160:197)) ); % MPa
 %Linarity roughly around  eneds aroun 285 MPa stress, which is arround raw
 %225
 for i = 1:225 
-    if abs(Youngs_SA_E() - (Stress_SA_E(i)/Strain_SA_E(i))) > 0.001
+    if abs(Youngs_SA_E() - (Stress_SA_E(i)/Strain_SA_E(i))) > 0.01
         
         Stress_SA_E(i) = [];
         Strain_SA_E(i) = [];
@@ -87,28 +120,16 @@ for i = 1:225
     
 end
 
-
+%}
 
 
 %% Elminating noise/ Plotting.
 
 close all
 
-%Stress = Stress(118:length(Stress),:) % Elminating noise from stress
-%Strain = Strain(118:length(Strain),:) % Eliminating noise from strain
-
-
-scatter(Strain_SA_E,Stress_SA_E,4,'k')
+scatter(Strain_RG_E,Stress_RG_E,4,'k')
 grid
 xlabel('Stress (Sample E), Sam and Abdulla')
 ylabel('Strain (MPa)')
 title ('Stress Vs Strain')
-
-%%
-
-clc
-close all
-
-f = lsqcurvefit(Stress_SA_E,Strain_SA_E,2)
-
 
