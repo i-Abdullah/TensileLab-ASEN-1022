@@ -9,68 +9,106 @@
 %
 %
 
-%% Esimating Crosssectional-Area/ Initial measurements.
-
-% H stands for Hight, L stands for length, W for width, we measure different
-% times the width and length and averaged the measured values.
+%% Prepare the data
 
 clear
 clc
 close all
 
 
-% H,W will be in units of : 
-
-L(1) = 1;
-L(2) = 2;
-L(3) = 3;
-W(1) = 4;
-W(2) = 5;
-W(3) = 6;
-H(1) = 7;
-H(2) = 8;
-H(3) = 9;
-
-% Taking the Average
-
-AvgL = mean(L);
-AvgW = mean(W);
-AvgH = mean(H);
-
-%% Prepare the data
-
-close all
+load('Group4_Brittle.mat') % Importing data.
+load('Group4_Ductile.mat') %Importing data
 
 
-load('ExampleData.mat','-ascii') % Importing data.
+%________________________
+% FORCE, ELONGATION, AND AREA
 
-Force = ExampleData(:,2); % getting the force
-Force = Force .* ( 4.4482216 ); % Convert from Pound-force to Newton
-
-Elongation = ExampleData(:,3); % getting the elongation
-Elongation = Elongation * (0.0254); %  Convert from inch to m.
-
-C_Area = AvgL * AvgW ; % Calculating the estimated cross sectional area
-
-Stress = Force ./ C_Area ; % Calculating stress ( Force / Area )
-Stress = Stress .* 10^6 ; % Normalize the data, convert to Mega Pasacal
+ForceC_SA = ForceC_SA .* ( 4.4482216 ); % Convert from Pound-force to Newton
+ForceE_SA = ForceE_SA .* ( 4.4482216 ); % Convert from Pound-force to Newton
 
 
-Strain = Elongation ./ AvgL ; % Calculating Strain ( Elongation / length )
+ElongationC_SA = ElongationC_SA .* (0.0254); %  Convert from inch to m.
+ElongationE_SA = ElongationE_SA .* (0.0254); %  Convert from inch to m.
+
+
+ThicknessSA_C = ThicknessSA_C * (0.0254); % Convert from inch to m.
+ThicknessSA_E = ThicknessSA_C * (0.0254); % Convert from inch to m.
+
+
+WidthSA_C = WidthSA_C * (0.0254); % Convert from inch to m.
+WidthSA_E = WidthSA_E * (0.0254); % Convert from inch to m.
+
+
+Area_SA_C = ThicknessSA_C * WidthSA_C ; % Calculating the estimated cross sectional area
+Area_SA_E = ThicknessSA_E * WidthSA_E ; % Calculating the estimated cross sectional area
+
+%________________________
+% Stress and Strain
+
+
+Stress_SA_C = (ForceC_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_SA_E = (ForceE_SA ./ Area_SA_C).* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+
+
+Strain_SA_C = ElongationC_SA ./ 1 ; % Calculating Strain ( Elongation / length )
+Strain_SA_E = ElongationE_SA ./ 1 ; % Calculating Strain ( Elongation / length )
+
+%% Elminating the data that caues noise
+
+%Elminate negative stress and related strain.
+
+Stress_SA_E(Stress_SA_E < 0 ) = [];
+Stress_SA_C(Stress_SA_C < 0 ) = [];
+Strain_SA_E(723) = [];
+Strain_SA_E(722) = [];
+Strain_SA_C(121) = [];
+Strain_SA_C(120) = [];
+
+%% Estimating Young's modulus to use it to elminate  the data the causes noise
+
+%We can see from the data that between 200 MPa and 250 we have linarity,
+%will average the data there for stress and strain to get estimate of
+%youngs mouduls and then elminate the data that has a tangent line falls
+%outside a small range of our young's modulus, this is roughly between raws
+%160 to 197.
+
+Youngs_SA_E = mean( (Stress_SA_E(160:197)) ./ (Strain_SA_E(160:197)) ); % MPa
+
+%Linarity roughly around  eneds aroun 285 MPa stress, which is arround raw
+%225
+for i = 1:225 
+    if abs(Youngs_SA_E() - (Stress_SA_E(i)/Strain_SA_E(i))) > 0.001
+        
+        Stress_SA_E(i) = [];
+        Strain_SA_E(i) = [];
+        
+    end
+    
+    
+end
+
+
 
 
 %% Elminating noise/ Plotting.
 
 close all
 
-Stress = Stress(118:length(Stress),:) % Elminating noise from stress
-Strain = Strain(118:length(Strain),:) % Eliminating noise from strain
+%Stress = Stress(118:length(Stress),:) % Elminating noise from stress
+%Strain = Strain(118:length(Strain),:) % Eliminating noise from strain
 
 
-scatter(Strain,Stress,4,'k','+')
+scatter(Strain_SA_E,Stress_SA_E,4,'k')
 grid
-xlabel('Stress')
+xlabel('Stress (Sample E), Sam and Abdulla')
 ylabel('Strain (MPa)')
 title ('Stress Vs Strain')
+
+%%
+
+clc
+close all
+
+f = lsqcurvefit(Stress_SA_E,Strain_SA_E,2)
 
 
