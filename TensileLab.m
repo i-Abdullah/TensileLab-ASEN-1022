@@ -49,11 +49,13 @@ Area_SA_E = ThicknessSA_E * WidthSA_E ; % Calculating the estimated cross sectio
 Stress_SA_C = (ForceC_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 Stress_SA_E = (ForceE_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 Stress_RG_E = (ForceE_RG ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_RG_C = (ForceC_RG ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 
 
 Strain_SA_C = ElongationC_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
 Strain_SA_E = ElongationE_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
 Strain_RG_E = ElongationE_RG .* 0.0635 ; % Calculating Strain ( Elongation / length )
+Strain_RG_C = ElongationC_RG .* 0.0635 ; % Calculating Strain ( Elongation / length )
 
 
 %% Elminating the data that caues noise
@@ -68,10 +70,20 @@ indi = find(Stress_SA_C<0);
 Strain_SA_C(indi) = [];
 Stress_SA_C(indi) = [];
 
+indi = find(Stress_RG_E<0);
+Strain_RG_E(indi) = [];
+Stress_RG_E(indi) = [];
+
+indi = find(Stress_RG_C<0);
+Strain_RG_C(indi) = [];
+Stress_RG_C(indi) = [];
+
+%{
 Strain_SA_C(1) = 0;
 Strain_SA_E(1) = 0;
 Stress_SA_C(1) = 0;
 Strain_SA_E(1) = 0;
+%}
 
 
 %% don't run yet!!
@@ -127,9 +139,8 @@ end
 
 close all
 
-scatter(Strain_RG_E,Stress_RG_E,4,'k')
+scatter(Strain_SA_E,Stress_SA_E,4,'k')
 grid
 xlabel('Stress (Sample E), Sam and Abdulla')
 ylabel('Strain (MPa)')
 title ('Stress Vs Strain')
-

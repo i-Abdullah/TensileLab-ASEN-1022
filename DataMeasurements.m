@@ -49,11 +49,29 @@ WidthSA_C = mean(WidthSA_C); %Averaging width
 ThicknessSA_C = [ 0.185 0.186 0.185 0.187]; %Measured Thicknes (we dropped the sample here)
 ThicknessSA_C = mean(ThicknessSA_C); %Averaging thickness
 
+% Sam and Abdulla
+
 SA_SampleC = xlsread('CollectedData/AbdullaSamData.xlsx','SampleC'); %Importing collected data
 ForceC_SA = SA_SampleC(:,1); % Extracting force.
 ElongationC_SA = SA_SampleC(:,2); % Extracting Elongation
 
 % Raymie and Geraldine
+
+
+%{
+WidthSA_C = [ 0.500 0.502 0.485 0.505  ]; %Measured Width
+WidthSA_C = mean(WidthSA_C); %Averaging width
+
+ThicknessRG_C = [ 0.185 0.186 0.185 0.187]; %Measured Thicknes (we dropped the sample here)
+ThicknessRG_C = mean(ThicknessSA_C); %Averaging thickness
+%}
+
+
+% Raymie and Geraldine
+
+RG_SampleC = xlsread('CollectedData/RGData.xlsx','SampleC'); %Importing collected data
+ForceC_RG = SA_SampleC(:,1); % Extracting force.
+ElongationC_RG = SA_SampleC(:,2); % Extracting Elongation
 
 
 % Saving data as .mat file
