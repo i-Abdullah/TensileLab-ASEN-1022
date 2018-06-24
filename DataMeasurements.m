@@ -25,6 +25,13 @@ ElongationE_SA = SA_SampleE(:,2); % Extracting Elongation
 
 % Raymie and Geraldine
 
+WidthRG_E = [ 12.7 12.7 ] .* 10^-3 ; %Measured width of sample(IN mm) 
+WidthRG_E = mean(WidthRG_E); %Averaging width 
+
+ThicknessRG_E = [ 3.8 3.8 ] * 10^-3; %Measured thickness of sample (In mm)
+ThicknessRG_E = mean(ThicknessRG_E); %Averaging thickness
+
+
 RG_SampleE = xlsread('CollectedData/RGData.xlsx','SampleE'); %Importing collected data
 ForceE_RG = RG_SampleE(:,1); % Extracting force.
 ElongationE_RG = RG_SampleE(:,2); % Extracting Elongation
@@ -57,14 +64,11 @@ ElongationC_SA = SA_SampleC(:,2); % Extracting Elongation
 
 % Raymie and Geraldine
 
+WidthRG_C = [ 12.7 12.7 ] .* 10^-3 ; %Measured width of sample(IN mm) 
+WidthRG_C = mean(WidthRG_C); %Averaging width 
 
-%{
-WidthSA_C = [ 0.500 0.502 0.485 0.505  ]; %Measured Width
-WidthSA_C = mean(WidthSA_C); %Averaging width
-
-ThicknessRG_C = [ 0.185 0.186 0.185 0.187]; %Measured Thicknes (we dropped the sample here)
-ThicknessRG_C = mean(ThicknessSA_C); %Averaging thickness
-%}
+ThicknessRG_C = [ 3.8 3.8 ] * 10^-3; %Measured thickness of sample (In mm)
+ThicknessRG_C = mean(ThicknessRG_C); %Averaging thickness
 
 
 % Raymie and Geraldine
