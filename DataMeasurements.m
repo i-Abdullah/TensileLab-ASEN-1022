@@ -12,11 +12,12 @@ clc
 
 % Sam and Abdulla :
 
-WidthSA_E = [ 0.509 0.515 0.503 ]; %Measured width of sample 
+WidthSA_E = [ 0.195 0.199 0.186 0.187 ]; %Measured width of sample 
 WidthSA_E = mean(WidthSA_E); %Averaging width 
 
-ThicknessSA_E = [ 0.195 0.199 0.186 0.187 ]; %Measured thickness of sample
+ThicknessSA_E = [ 0.185 0.186 0.185 0.187 ]; %Measured thickness of sample
 ThicknessSA_E = mean(ThicknessSA_E); %Averaging thickness
+
 
 SA_SampleE = xlsread('CollectedData/AbdullaSamData.xlsx','SampleE'); %Importing collected data
 ForceE_SA = SA_SampleE(:,1); % Extracting force.

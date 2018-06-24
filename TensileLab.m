@@ -25,31 +25,39 @@ load('Group4_Ductile.mat') %Importing data
 
 ForceC_SA = ForceC_SA .* ( 4.4482216 ); % Convert from Pound-force to Newton
 ForceE_SA = ForceE_SA .* ( 4.4482216 ); % Convert from Pound-force to Newton
+ForceC_RG = ForceC_RG .* ( 4.4482216 ); % Convert from Pound-force to Newton
+ForceE_RG = ForceE_RG .* ( 4.4482216 ); % Convert from Pound-force to Newton
 
 
 ElongationC_SA = ElongationC_SA .* (0.0254); %  Convert from inch to m.
 ElongationE_SA = ElongationE_SA .* (0.0254); %  Convert from inch to m.
+ElongationC_RG = ElongationC_RG .* (0.0254); %  Convert from inch to m.
+ElongationE_RG = ElongationE_RG .* (0.0254); %  Convert from inch to m.
 
 
 ThicknessSA_C = ThicknessSA_C * (0.0254); % Convert from inch to m.
 ThicknessSA_E = ThicknessSA_C * (0.0254); % Convert from inch to m.
+%Raymie and Gera data already in meters.
 
 
 WidthSA_C = WidthSA_C * (0.0254); % Convert from inch to m.
 WidthSA_E = WidthSA_E * (0.0254); % Convert from inch to m.
+%Raymie and Gera data already in meters.
 
 
 Area_SA_C = ThicknessSA_C * WidthSA_C ; % Calculating the estimated cross sectional area
 Area_SA_E = ThicknessSA_E * WidthSA_E ; % Calculating the estimated cross sectional area
+Area_RG_C = ThicknessRG_C * WidthRG_C ; % Calculating the estimated cross sectional area
+Area_RG_E = ThicknessRG_E * WidthRG_E ; % Calculating the estimated cross sectional area
 
 %________________________
 % Stress and Strain
 
 
 Stress_SA_C = (ForceC_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
-Stress_SA_E = (ForceE_SA ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
-Stress_RG_E = (ForceE_RG ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
-Stress_RG_C = (ForceC_RG ./ Area_SA_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_SA_E = (ForceE_SA ./ Area_SA_E) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_RG_E = (ForceE_RG ./ Area_RG_E) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
+Stress_RG_C = (ForceC_RG ./ Area_RG_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 
 
 Strain_SA_C = ElongationC_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
@@ -78,69 +86,30 @@ indi = find(Stress_RG_C<0);
 Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
 
-%{
-Strain_SA_C(1) = 0;
-Strain_SA_E(1) = 0;
-Stress_SA_C(1) = 0;
-Strain_SA_E(1) = 0;
-%}
 
-
-%% don't run yet!!
-
-%{
-Strain_SA_C(1) = 0;
-Strain_SA_E(1) = 0;
-Stress_SA_C(1) = 0;
-Strain_SA_E(1) = 0;
-
-indi = find(Strain_SA_E<0);
-Strain_SA_E(indi) = [];
-Stress_SA_E(indi) = [];
-
-indi = find(Strain_SA_C<0);
-Strain_SA_C(indi) = [];
-Stress_SA_C(indi) = [];
-
-}
-
-%}
-
-
-%% Estimating Young's modulus to use it to elminate  the data the causes noise
-
-%{
-    
-%We can see from the data that between 200 MPa and 250 we have linarity,
-%will average the data there for stress and strain to get estimate of
-%youngs mouduls and then elminate the data that has a tangent line falls
-%outside a small range of our young's modulus, this is roughly between raws
-%160 to 197.
-
-Youngs_SA_E = mean( (Stress_SA_E(160:197)) ./ (Strain_SA_E(160:197)) ); % MPa
-
-%Linarity roughly around  eneds aroun 285 MPa stress, which is arround raw
-%225
-for i = 1:225 
-    if abs(Youngs_SA_E() - (Stress_SA_E(i)/Strain_SA_E(i))) > 0.01
-        
-        Stress_SA_E(i) = [];
-        Strain_SA_E(i) = [];
-        
-    end
-    
-    
-end
-
-%}
-
-
-%% Elminating noise/ Plotting.
+%% Plotting.
 
 close all
 
-scatter(Strain_SA_E,Stress_SA_E,4,'k')
+subplot(1,2,1)
+scatter(Strain_SA_E,Stress_SA_E,2,'k')
+hold on
+scatter(Strain_RG_E,Stress_RG_E,2,'r')
 grid
-xlabel('Stress (Sample E), Sam and Abdulla')
+xlabel('Stress (uniteless)')
 ylabel('Strain (MPa)')
-title ('Stress Vs Strain')
+title ('Stress Vs Strain - Sample E')
+legend('Sam and Abdulla','Raymie and Gera')
+
+subplot(1,2,2)
+
+scatter(Strain_SA_C,Stress_SA_C,4,'k')
+hold on
+scatter(Strain_RG_C,Stress_RG_C,2,'r')
+legend('Sam and Abdulla','Raymie and Gera')
+grid
+xlabel('Stress (uniteless)')
+ylabel('Strain (MPa)')
+title ('Stress Vs Strain - Sample C')
+
+%% Analyze: Young's mouduls, ultimate tensile strength, and breaking point.
