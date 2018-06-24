@@ -36,7 +36,7 @@ ElongationE_RG = ElongationE_RG .* (0.0254); %  Convert from inch to m.
 
 
 ThicknessSA_C = ThicknessSA_C * (0.0254); % Convert from inch to m.
-ThicknessSA_E = ThicknessSA_C * (0.0254); % Convert from inch to m.
+ThicknessSA_E = ThicknessSA_E * (0.0254); % Convert from inch to m.
 %Raymie and Gera data already in meters.
 
 

@@ -12,7 +12,7 @@ clc
 
 % Sam and Abdulla :
 
-WidthSA_E = [ 0.195 0.199 0.186 0.187 ]; %Measured width of sample 
+WidthSA_E = [ 0.510 0.500 0.495 0.500 ]; %Measured width of sample 
 WidthSA_E = mean(WidthSA_E); %Averaging width 
 
 ThicknessSA_E = [ 0.185 0.186 0.185 0.187 ]; %Measured thickness of sample
