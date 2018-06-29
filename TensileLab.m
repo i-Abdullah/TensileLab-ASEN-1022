@@ -60,11 +60,22 @@ Stress_RG_E = (ForceE_RG ./ Area_RG_E) .* (10^(-6)) ; % Calculating stress ( For
 Stress_RG_C = (ForceC_RG ./ Area_RG_C) .* (10^(-6)) ; % Calculating stress ( Force / Area ) and convert to MPa.
 
 
-Strain_SA_C = ElongationC_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
-Strain_SA_E = ElongationE_SA .* 0.0635 ; % Calculating Strain ( Elongation / length )
-Strain_RG_E = ElongationE_RG .* 0.0635 ; % Calculating Strain ( Elongation / length )
-Strain_RG_C = ElongationC_RG .* 0.0635 ; % Calculating Strain ( Elongation / length )
+Strain_SA_C = ElongationC_SA .* 0.0254 ; % Calculating Strain ( Elongation / length )
+Strain_SA_E = ElongationE_SA .* 0.0254 ; % Calculating Strain ( Elongation / length )
+Strain_RG_E = ElongationE_RG .* 0.0254 ; % Calculating Strain ( Elongation / length )
+Strain_RG_C = ElongationC_RG .* 0.0254 ; % Calculating Strain ( Elongation / length )
 
+
+%% OFFSETTING THE DATA
+
+% Our Extensometer was not zeroed, so we will offset the data of the strain
+
+% offset based on the first value
+
+Strain_SA_C = Strain_SA_C - Strain_SA_C(1) ;
+Strain_SA_E = Strain_SA_E - Strain_SA_E(1) ; 
+Strain_RG_E = Strain_RG_E - Strain_RG_E(1) ; 
+Strain_RG_C = Strain_RG_C - Strain_RG_C(1) ;
 
 %% Elminating the data that caues noise
 
@@ -87,17 +98,47 @@ Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
 
 
-%% Plotting.
+% elminate negative strains 
+
+indi = find(Strain_SA_E<0);
+Strain_SA_E(indi) = [];
+Stress_SA_E(indi) = [];
+
+indi = find(Strain_SA_C<0);
+Strain_SA_C(indi) = [];
+Stress_SA_C(indi) = [];
+
+indi = find(Strain_RG_E<0);
+Strain_RG_E(indi) = [];
+Stress_RG_E(indi) = [];
+
+indi = find(Strain_RG_C<0);
+Strain_RG_C(indi) = [];
+Stress_RG_C(indi) = [];
+
+
+%% Plotting/ before estimating Young's modulus 
 
 close all
+
+%{
+y = @(x) p(1)*(x)-10*10^-6
+hold on
+h = fplot(y , [ -0.05*10^-6 10*10^-6 ] )
+h.LineWidth = 1
+
+%}
+
+
 
 subplot(1,2,1)
 scatter(Strain_SA_E,Stress_SA_E,2,'k')
 hold on
 scatter(Strain_RG_E,Stress_RG_E,2,'r')
+
 grid
-xlabel('Stress (uniteless)')
-ylabel('Strain (MPa)')
+xlabel('Strain (uniteless)')
+ylabel('Stress (MPa)')
 title ('Stress Vs Strain - Sample E')
 legend('Sam and Abdulla','Raymie and Gera')
 
@@ -108,8 +149,73 @@ hold on
 scatter(Strain_RG_C,Stress_RG_C,2,'r')
 legend('Sam and Abdulla','Raymie and Gera')
 grid
-xlabel('Stress (uniteless)')
-ylabel('Strain (MPa)')
+xlabel('Strain (uniteless)')
+ylabel('Stress (MPa)')
 title ('Stress Vs Strain - Sample C')
 
+hold off
+
+
+%% Detrmine the linear region of the data
+
+
+%We will determine the best fit for the linear region of the data using the
+%curve fitting tool in MATLAB, we will exclude the non-linear regions by
+%the ruler tool.
+
+%We will store each curve fitting session in the main file, with the
+%function that the Curve fitting app can generate so we can call them
+%within this code just to reduce computation time .
+
+%The functions will be named createFit
+
+
+syms x
+
+line_fit = 3.528e+05*(x-(0.002))
+
+close all
+
+scatter(Strain_Example_E,Stress_Example_E,2,'k' )
+hold on
+linefit1 = ezplot(line_fit,[min(Strain_Example_E)-0.0001, max(Strain_Example_E)+0.0001, min(Stress_Example_E)-0.0001, max(Stress_Example_E)+0.0001 ])
+
+set(linefit1,'LineWidth',2)
+
+hold off
+grid
+grid minor
+xlabel('Strain (uniteless)')
+ylabel('Stress (MPa)')
+title ('Stress Vs Strain - Sample E')
+legend('Sam and Abdulla','Raymie and Gera')
+
+annotation('textarrow',[0.44 0.50],[0.63 0.58],'TextEdgeColor',[0 0 0],...
+    'TextBackgroundColor',[ Strain_Example_E(376) Stress_Example_E(376) ],'FontSize',12,'String',{'Y.S'});
+
+
 %% Analyze: Young's mouduls, ultimate tensile strength, and breaking point.
+
+%Caclulculate the youngs moudules based on the linear data by estimating
+%the linar best fit
+
+
+% Sam and Abdulla Sample E Linear data are roughlt between 0 to 275 Mpa, which
+% corressponds to the indices from 0 to 220
+
+SA_E_Liner = [ Strain_SA_E(1:220) , Stress_SA_E(1:220) ];
+
+X_SA_E = SA_E_Liner(:,1);
+Y_SA_E = SA_E_Liner(:,2);
+
+p = polyfit(SA_E_Liner(:,1),SA_E_Liner(:,2),1);
+
+% Sam and Abdulla Sample E Linear data are roughlt between 0 to 275 Mpa, which
+% corressponds to the indices from 0 to 220
+
+
+
+
+
+
+
