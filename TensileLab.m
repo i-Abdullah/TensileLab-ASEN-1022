@@ -121,14 +121,6 @@ Stress_RG_C(indi) = [];
 
 close all
 
-%{
-y = @(x) p(1)*(x)-10*10^-6
-hold on
-h = fplot(y , [ -0.05*10^-6 10*10^-6 ] )
-h.LineWidth = 1
-
-%}
-
 
 
 subplot(1,2,1)
@@ -169,29 +161,37 @@ hold off
 
 %The functions will be named createFit
 
+%The first output of the function will create for us our polynomial
+%coefficients, we will just use the gradient for the first degree
+%ploynomial to represent Young's modulus
+
 
 syms x
 
-line_fit = 3.528e+05*(x-(0.002))
+Youngs_SA_E = Young_SA_E*x ;
 
-close all
+hold all 
 
-scatter(Strain_Example_E,Stress_Example_E,2,'k' )
+
+scatter(Strain_SA_E,Stress_SA_E,2, 'k' )
+
 hold on
-linefit1 = ezplot(line_fit,[min(Strain_Example_E)-0.0001, max(Strain_Example_E)+0.0001, min(Stress_Example_E)-0.0001, max(Stress_Example_E)+0.0001 ])
 
-set(linefit1,'LineWidth',2)
+linefit1 = ezplot(Youngs_SA_E,[ min(Strain_SA_E) - 0.001 max(Strain_SA_E) - 0.001 min(Stress_SA_E) - 0.0001 max(Stress_SA_E) - 0.0001 ])
 
-hold off
+
+hold off 
+
+
+
+%set(linefit1,'LineWidth',2)
+
 grid
 grid minor
 xlabel('Strain (uniteless)')
 ylabel('Stress (MPa)')
 title ('Stress Vs Strain - Sample E')
-legend('Sam and Abdulla','Raymie and Gera')
-
-annotation('textarrow',[0.44 0.50],[0.63 0.58],'TextEdgeColor',[0 0 0],...
-    'TextBackgroundColor',[ Strain_Example_E(376) Stress_Example_E(376) ],'FontSize',12,'String',{'Y.S'});
+%legend('Sam and Abdulla','Raymie and Gera')
 
 
 %% Analyze: Young's mouduls, ultimate tensile strength, and breaking point.

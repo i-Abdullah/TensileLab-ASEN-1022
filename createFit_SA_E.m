@@ -1,4 +1,4 @@
-function [fitresult, gof] = createFit_SA_E(Strain_SA_E, Stress_SA_E)
+function [fitresult] = createFit_SA_E(Strain_SA_E, Stress_SA_E)
 %CREATEFIT(STRAIN_SA_E,STRESS_SA_E)
 %  Create a fit.
 %
@@ -26,13 +26,6 @@ opts.Exclude = excludedPoints;
 % Fit model to data.
 [fitresult, gof] = fit( xData, yData, ft, opts );
 
-% Plot fit with data.
-figure( 'Name', 'SA_E' );
-h = plot( fitresult, xData, yData, excludedPoints );
-legend( h, 'Stress_SA_E vs. Strain_SA_E', 'Excluded Stress_SA_E vs. Strain_SA_E', 'SA_E', 'Location', 'NorthEast' );
-% Label axes
-xlabel Strain_SA_E
-ylabel Stress_SA_E
-grid on
+
 
 
