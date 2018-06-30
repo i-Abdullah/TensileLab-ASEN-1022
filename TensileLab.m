@@ -117,6 +117,41 @@ Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
 
 
+%Set the first data points in all arrays == 0
+
+
+Strain_SA_E(1) = 0;
+Strain_SA_C(1) = 0;
+Strain_RG_E(1) = 0;
+Strain_RG_C(1) = 0;
+
+Stress_SA_E(1) = 0;
+Stress_SA_C(1) = 0;
+Stress_RG_E(1) = 0;
+Stress_RG_C(1) = 0;
+
+
+
+% Elminating the data where the grips are adjusting:
+
+indi = find(Stress_SA_E <= 100 & Stress_SA_E ~= 0 );
+Strain_SA_E(indi) = [];
+Stress_SA_E(indi) = [];
+
+indi = find(Stress_SA_C <= 45 & Stress_SA_C ~= 0 );
+Strain_SA_C(indi) = [];
+Stress_SA_C(indi) = [];
+
+indi = find(Stress_RG_E <= 40 &  Stress_RG_E ~= 0 );
+Strain_RG_E(indi) = [];
+Stress_RG_E(indi) = [];
+
+indi = find(Stress_RG_C <= 70 & Stress_RG_C ~= 0 );
+Strain_RG_C(indi) = [];
+Stress_RG_C(indi) = [];
+
+
+
 %% Plotting/ before estimating Young's modulus 
 
 close all
@@ -171,10 +206,10 @@ TS_RG_C = max(Stress_RG_C);
 
 % BEST LINE EQUATIONS;
 
-Youngs_SA_E = @(x) 8.633e+07 *(x - 0.002E-5) +  41.31 ;
-Youngs_SA_C = @(x) 3.411e+08 *(x - 0.002E-5) + -12.96 ;
-Youngs_RG_E = @(x) 1.089e+08 *(x - 0.002E-5) + -1.96;
-Youngs_RG_C = @(x) 4.075e+08 *(x - 0.002E-5) + -14.91;
+Youngs_SA_E = @(x) 8.329e+07 *(x - 0.002E-5) +  61.43 ;
+Youngs_SA_C = @(x) 2.705e+08 *(x - 0.002E-5) + 2.697 ;
+Youngs_RG_E = @(x) 1.099e+08 *(x - 0.002E-5) + -4.184 ;
+Youngs_RG_C = @(x) 3.281e+08 *(x - 0.002E-5) + 5.213 ;
 
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
@@ -182,6 +217,11 @@ Youngs_RG_C = @(x) 4.075e+08 *(x - 0.002E-5) + -14.91;
 % values of our data to our best fit, and interpolate.
 
 %create an Array called Diff the determines the difference between 
+
+
+%The following code will evaluate the best fit along the strain data and
+%the for loop will tell us the closest data on our scatter plot to our best fit.
+
 
 fit = feval(Youngs_SA_E,Strain_SA_E);
 for i=1:length(Strain_SA_E)
@@ -191,9 +231,15 @@ for i=1:length(Strain_SA_E)
 end
 
 %sort the diffrencees from lower to higher
-%the first value is the first one, we will ignore it.
+%the first value is near the origin, we will ignore it.
 
 Diff_SA_E_Close = sort(Diff_SA_E);
+
+%This will find the indicies of the closest difference, i.e. where does the
+%function intersect our scatter, ideally we want a differenceo of zero
+%where our fit hits exactly a point but if that is not the case we will
+%intrplate between two values.
+
 
 interpolate1 = find(Diff_SA_E==Diff_SA_E_Close(2));
 interpolate2 = find(Diff_SA_E==Diff_SA_E_Close(3));
