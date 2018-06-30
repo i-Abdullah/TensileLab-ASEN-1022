@@ -174,16 +174,29 @@ TS_RG_C = max(Stress_RG_C);
 Youngs_SA_E = @(x) 8.633e+07 *(x - 0.002E-5) +  41.31 ;
 Youngs_SA_C = @(x) 3.411e+08 *(x - 0.002E-5) + -12.96 ;
 Youngs_RG_E = @(x) 1.089e+08 *(x - 0.002E-5) + -1.96;
-Youngs_RG_C = @(x) 4.075e+08 *(x - 0.002E-5) + -14.91
+Youngs_RG_C = @(x) 4.075e+08 *(x - 0.002E-5) + -14.91;
 
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
 % the data point we have): we will use a for loop to determine the closest
 % values of our data to our best fit, and interpolate.
 
+%create an Array called Diff the determines the difference between 
 
+fit = feval(Youngs_SA_E,Strain_SA_E);
+for i=1:length(Strain_SA_E)
+    
+    Diff_SA_E(i) = abs( fit(i) - Stress_SA_E(i));
+    
+end
 
+%sort the diffrencees from lower to higher
+%the first value is the first one, we will ignore it.
 
+Diff_SA_E_Close = sort(Diff_SA_E);
+
+interpolate1 = find(Diff_SA_E==Diff_SA_E_Close(2));
+interpolate2 = find(Diff_SA_E==Diff_SA_E_Close(3));
 
 
 %% PLOTS :
