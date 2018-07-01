@@ -12,6 +12,9 @@ This repo contains all of our work for a lab experiment done by my classmates an
 
 ***
 
+![alt text](FinalFigure.jpg "Stress Vs Strain figures")
+
+
 
 We will be **measuring, and analyzing the failure loads and locations of test specimens made from two types of Aluminum alloys.** Each will be tested in a single specimen configuration for a total of two test specimen cases(1). 
 
