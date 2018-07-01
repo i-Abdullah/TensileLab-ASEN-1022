@@ -12,7 +12,7 @@ This repo contains all of our work for a lab experiment done by my classmates an
 
 ***
 
-![alt text](FinalFigure.jpg "Stress Vs Strain figures")
+![alt text](FinalFigure.jpg=100x20 "Stress Vs Strain figures")
 
 
 
