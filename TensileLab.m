@@ -117,21 +117,6 @@ Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
 
 
-%Set the first data points in all arrays == 0
-
-
-Strain_SA_E(1) = 0;
-Strain_SA_C(1) = 0;
-Strain_RG_E(1) = 0;
-Strain_RG_C(1) = 0;
-
-Stress_SA_E(1) = 0;
-Stress_SA_C(1) = 0;
-Stress_RG_E(1) = 0;
-Stress_RG_C(1) = 0;
-
-
-
 % Elminating the data where the grips are adjusting:
 
 indi = find(Stress_SA_E <= 100 & Stress_SA_E ~= 0 );
@@ -149,6 +134,21 @@ Stress_RG_E(indi) = [];
 indi = find(Stress_RG_C <= 70 & Stress_RG_C ~= 0 );
 Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
+
+
+% offset everything so the data starts at 0,0
+
+
+Strain_SA_E = Strain_SA_E - Strain_SA_E(1);
+Strain_SA_C = Strain_SA_C - Strain_SA_C(1);
+Strain_RG_E = Strain_RG_E - Strain_RG_E(1);
+Strain_RG_C = Strain_RG_C - Strain_RG_C(1);
+
+Stress_SA_E = Stress_SA_E - Stress_SA_E(1);
+Stress_SA_C = Stress_SA_C - Stress_SA_C(1);
+Stress_RG_E = Stress_RG_E - Stress_RG_E(1);
+Stress_RG_C = Stress_RG_C - Stress_RG_C(1);
+
 
 
 
@@ -206,73 +206,37 @@ TS_RG_C = max(Stress_RG_C);
 
 % BEST LINE EQUATIONS;
 
-Youngs_SA_E = @(x) 8.329e+07 *(x - 0.002E-5) +  61.43 ;
-Youngs_SA_C = @(x) 2.705e+08 *(x - 0.002E-5) + 2.697 ;
-Youngs_RG_E = @(x) 1.099e+08 *(x - 0.002E-5) + -4.184 ;
-Youngs_RG_C = @(x) 3.281e+08 *(x - 0.002E-5) + 5.213 ;
+Youngs_SA_E = @(x) 6.891e+07 *(x - 0.002E-5) + 28.03 ;
+Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-5) + 3.565 ;
+Youngs_RG_E = @(x) 1.115e+08 *(x - 0.002E-5) + -2.104;
+Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-5) +  3.17 ;
 
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
-% the data point we have): we will use a for loop to determine the closest
-% values of our data to our best fit, and interpolate.
+% the data point we have): we will determine them manually.
 
-%create an Array called Diff the determines the difference between 
+% sample E Of RG has YS falls between 172.05 and 170.86 Mpa.
+% This corresponds to indice 122 123
 
-
-%The following code will evaluate the best fit along the strain data and
-%the for loop will tell us the closest data on our scatter plot to our best fit.
+YS_SA_E = median([Stress_SA_E(122),Stress_SA_E(123)]);
 
 
-fit = feval(Youngs_SA_E,Strain_SA_E);
-for i=1:length(Strain_SA_E)
-    
-    Diff_SA_E(i) = abs( fit(i) - Stress_SA_E(i));
-    
-end
+% sample C Of SA has YS falls between 33.808 and 36.1477 Mpa.
+% This corresponds to indice 29 and 31
 
-%sort the diffrencees from lower to higher
-%the first value is near the origin, we will ignore it.
-
-Diff_SA_E_Close = sort(Diff_SA_E);
-
-%This will find the indicies of the closest difference, i.e. where does the
-%function intersect our scatter, ideally we want a differenceo of zero
-%where our fit hits exactly a point but if that is not the case we will
-%intrplate between two values.
-
-
-interpolate1 = find(Diff_SA_E==Diff_SA_E_Close(2));
-interpolate2 = find(Diff_SA_E==Diff_SA_E_Close(3));
-
-%examining them indevuailly we can see interpolate2 is for sure the closest
-%intersection point, now we will intrplate between that and the point to
-%the right of it using matlab function. We will just take the median value
-%between them and call it a day :)
-
-YS_SA_E = median([Stress_SA_E(interpolate2),Stress_SA_E(interpolate2+1)]);
-
-% for the rest of the data will determine the YS manaullay from graphs, the loops take
-% time and they can be innacurate and fixing them takes more time than
-% picking the data manually.
-
-% Gera and Raymie sample E ANC C:
-
-% sample E Of RG has YS falls between 316.5244 and 318.6089 Mpa.
-% This corresponds to indice 134 and 135
-YS_RG_E = median([Stress_RG_E(134),Stress_RG_E(135)]);
+YS_SA_C = median([Stress_SA_C(29),Stress_SA_C(31)]);
 
 
 
-% sample C Of RG has YS falls between 101.742 and 103.381 Mpa.
-% This corresponds to indice 23 and 24
-YS_RG_C = median([Stress_RG_C(23),Stress_RG_C(24)]);
+% sample E Of RG has YS falls between 274.14 and 276.15 Mpa.
+% This corresponds to indice 132 and 133
+YS_RG_E = median([Stress_RG_E(132),Stress_RG_E(133)]);
 
 
 
-
-% sample C Of SA has YS falls between 82.27 and 83.599 Mpa.
-% This corresponds to indice 32 and 33
-YS_SA_C = median([Stress_SA_C(32),Stress_SA_C(33)]);
+% sample C Of RG has YS falls between 38.446 and 39.976 Mpa.
+% This corresponds to indice 27 and 28
+YS_RG_C = median([Stress_RG_C(27),Stress_RG_C(28)]);
 
 
 
@@ -282,7 +246,8 @@ YS_SA_C = median([Stress_SA_C(32),Stress_SA_C(33)]);
 FS_SA_E = Stress_SA_E(length(Strain_SA_E));
 FS_SA_C = Stress_SA_C(length(Strain_SA_C));
 FS_RG_C = Stress_RG_C(length(Strain_RG_C));
-FS_RG_E = Stress_RG_E(494);
+FS_RG_E = Stress_RG_E(325);
+
 
 %% PLOTS :
 
@@ -296,21 +261,27 @@ hold on
 linefit1 = ezplot(Youngs_SA_E,[ min(Strain_SA_E) max(Strain_SA_E) min(Stress_SA_E) max(Stress_SA_E)]);
 hold on
 set(linefit1,'LineWidth',2);
+
+
 hold on
 plot(Strain_SA_E(length(Strain_SA_E)), Stress_SA_E(length(Strain_SA_E)), 'r*')
 hold on
-plot(Strain_SA_E(111) , YS_SA_E, '*b')
+plot(Strain_SA_E(122) , YS_SA_E, '*b')
 hold on
 plot(Strain_SA_E(find(Stress_SA_E==TS_SA_E)), TS_SA_E, '*m')
 hold off
+
 
 grid minor
 xlabel('Strain (uniteless)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, SA ');
 legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength','Tensile Strength');
+
+
+
 xlim([-1E-9 9e-5]);
-ylim([0 400]);
+ylim([0 210]);
 
 %_______________________________
 
@@ -326,9 +297,9 @@ linefit2 = ezplot(Youngs_RG_E,[ min(Strain_RG_E) max(Strain_RG_E) min(Stress_RG_
 set(linefit2,'LineWidth',2);
 
 hold on
-plot( Strain_RG_E(494), FS_RG_E, 'r*')
+plot( Strain_RG_E(325), FS_RG_E, 'r*')
 hold on
-plot(Strain_RG_E(134) , YS_RG_E, '*b')
+plot(Strain_RG_E(132) , YS_RG_E, '*b')
 hold on
 plot(Strain_RG_E(find(Stress_RG_E==TS_RG_E)), TS_RG_E, '*m')
 
@@ -339,6 +310,8 @@ xlabel('Strain (uniteless)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, RG ');
 legend('Raymie and Gera','Youngs mouduls', 'Fracture stress','Yield Strength','Tensile Strength');
+
+
 xlim([0 6e-5]);
 ylim([0 400]);
 
@@ -354,13 +327,14 @@ linefit3 = ezplot(Youngs_SA_C,[ min(Strain_SA_C) max(Strain_SA_C) min(Stress_SA_
 set(linefit3,'LineWidth',2);
 
 hold on
-plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'r*')
+plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'r+')
 
 hold on
-plot(Strain_SA_C(33) , YS_SA_C, '*b')
+plot(Strain_SA_C(30) , YS_SA_C, '*b')
 
 hold on
-plot(Strain_SA_C(find(Stress_SA_C==TS_SA_C)), TS_SA_C, '*m')
+TS = plot(Strain_SA_C(find(Stress_SA_C==TS_SA_C)), TS_SA_C, '*m')
+
 
 hold off
 
@@ -368,9 +342,11 @@ grid minor
 xlabel('Strain (uniteless)');
 ylabel('Stress (MPa)')
 title ('Stress Vs Strain, Sample C, SA ');
-legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength','Tensile Strength');
-xlim([0 0.3e-5]);
-ylim([0 170]);
+legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength = TS','Tensile Strength = YS');
+
+
+xlim([0 0.25e-5]);
+ylim([0 130]);
 
 
 
@@ -383,16 +359,36 @@ hold on
 linefit4 = ezplot(Youngs_RG_C,[ min(Strain_RG_C) max(Strain_RG_C) min(Stress_RG_C) max(Stress_RG_C)]);
 set(linefit4,'LineWidth',2);
 
-legend('Raymie and Gera','Youngs mouduls');
+hold on
+plot(Strain_RG_C(length(Strain_RG_C)), FS_RG_C , 'r+')
+
+hold on
+plot(Strain_RG_C(27) , YS_RG_C, '*b')
+
+hold on
+TS = plot(Strain_RG_C(find(Stress_RG_C==TS_RG_C)), TS_RG_C, '*m')
+
+
+
+legend('Raymie and Gera','Youngs mouduls','Fracture stress','Yield Strength = TS','Tensile Strength = YS');
 grid minor
 xlabel('Strain (uniteless)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample C, RG');
-xlim([0 0.3e-5]);
-ylim([0 210]);
+
+
+xlim([0 0.25e-5]);
+ylim([0 150]);
 
 hold off
 
 
 
 %% PRINTING OUT THE DATA:
+
+Team_Sample = {'RG E' ; 'RG C' ; 'SA E' ; 'SA C'};
+YS_MPa = [ YS_RG_E ; YS_RG_C ; YS_SA_E ; YS_SA_C ];
+TS_MPa = [ TS_RG_E ; TS_RG_C ; TS_SA_E ; TS_SA_C ];
+FS_MPa = [ FS_RG_E ; FS_RG_C ; FS_SA_E ; FS_SA_C ];
+
+t = table(Team_Sample, YS_MPa, TS_MPa, FS_MPa)
