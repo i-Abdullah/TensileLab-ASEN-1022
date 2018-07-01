@@ -404,5 +404,6 @@ Team_Sample = {'RG E' ; 'RG C' ; 'SA E' ; 'SA C'};
 YS_MPa = [ YS_RG_E ; YS_RG_C ; YS_SA_E ; YS_SA_C ];
 TS_MPa = [ TS_RG_E ; TS_RG_C ; TS_SA_E ; TS_SA_C ];
 FS_MPa = [ FS_RG_E ; FS_RG_C ; FS_SA_E ; FS_SA_C ];
+Youngs_Moudule = [ YM_RG_E ; YM_RG_C ; YM_SA_E ; YM_SA_C ];
 
-t = table(Team_Sample, YS_MPa, TS_MPa, FS_MPa)
+t = table(Team_Sample, YS_MPa, TS_MPa, FS_MPa,Youngs_Moudule)
