@@ -292,7 +292,7 @@ grid minor
 xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, SA ');
-legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength','Tensile Strength');
+legend('Sam and Abdulla','Youngs modulus','Fracture stress','Yield Strength','Tensile Strength');
 
 
 
@@ -325,7 +325,7 @@ grid minor
 xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, RG ');
-legend('Raymie and Gera','Youngs mouduls', 'Fracture stress','Yield Strength','Tensile Strength');
+legend('Raymie and Gera','Youngs modulus', 'Fracture stress','Yield Strength','Tensile Strength');
 
 
 xlim([0 6e-5]);
@@ -355,7 +355,7 @@ grid minor
 xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)')
 title ('Stress Vs Strain, Sample C, SA ');
-legend('Sam and Abdulla','Youngs mouduls','Fracture stress = TS','Yield Strength');
+legend('Sam and Abdulla','Youngs modulus','Fracture stress = TS','Yield Strength');
 
 
 xlim([0 0.25e-5]);
@@ -381,7 +381,7 @@ plot(Strain_RG_C(28) , YS_RG_C, '*b')
 hold off
 
 
-legend('Raymie and Gera','Youngs mouduls','Fracture stress = TS','Yield Strength = TS');
+legend('Raymie and Gera','Youngs modulus','Fracture stress = TS','Yield Strength');
 grid minor
 xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
