@@ -217,9 +217,9 @@ TS_RG_C = max(Stress_RG_C);
 % BEST LINE EQUATIONS;
 
 Youngs_SA_E = @(x) 6.891e+07 *(x - 0.002E-5) + 28.03 ;
-Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-5) + 3.565 ;
+Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-6) + 3.565 ;
 Youngs_RG_E = @(x) 1.115e+08 *(x - 0.002E-5) + -2.104;
-Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-5) +  3.17 ;
+Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-6) +  3.17 ;
 
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
@@ -231,10 +231,10 @@ Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-5) +  3.17 ;
 YS_SA_E = median([Stress_SA_E(122),Stress_SA_E(123)]);
 
 
-% sample C Of SA has YS falls between 33.808 and 36.1477 Mpa.
-% This corresponds to indice 29 and 31
+% sample C Of SA has YS falls between 26.568 and 27.77 Mpa.
+% This corresponds to indice 23 and 24
 
-YS_SA_C = median([Stress_SA_C(29),Stress_SA_C(31)]);
+YS_SA_C = median([Stress_SA_C(23),Stress_SA_C(24)]);
 
 
 
@@ -244,9 +244,9 @@ YS_RG_E = median([Stress_RG_E(132),Stress_RG_E(133)]);
 
 
 
-% sample C Of RG has YS falls between 38.446 and 39.976 Mpa.
-% This corresponds to indice 27 and 28
-YS_RG_C = median([Stress_RG_C(27),Stress_RG_C(28)]);
+% sample C Of RG has YS falls between 30.6383 and 32.277 Mpa.
+% This corresponds to indice 22 and 23
+YS_RG_C = median([Stress_RG_C(22),Stress_RG_C(23)]);
 
 
 
@@ -340,7 +340,7 @@ hold on
 plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'r+')
 
 hold on
-plot(Strain_SA_C(30) , YS_SA_C, '*b')
+plot(Strain_SA_C(23) , YS_SA_C, '*b')
 
 hold on
 TS = plot(Strain_SA_C(find(Stress_SA_C==TS_SA_C)), TS_SA_C, '*m')
@@ -373,7 +373,7 @@ hold on
 plot(Strain_RG_C(length(Strain_RG_C)), FS_RG_C , 'r+')
 
 hold on
-plot(Strain_RG_C(27) , YS_RG_C, '*b')
+plot(Strain_RG_C(22) , YS_RG_C, '*b')
 
 hold on
 TS = plot(Strain_RG_C(find(Stress_RG_C==TS_RG_C)), TS_RG_C, '*m')
