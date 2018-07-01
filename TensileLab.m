@@ -216,37 +216,43 @@ TS_RG_C = max(Stress_RG_C);
 
 % BEST LINE EQUATIONS;
 
-Youngs_SA_E = @(x) 6.891e+07 *(x - 0.002E-5) + 28.03 ;
-Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-6) + 3.565 ;
-Youngs_RG_E = @(x) 1.115e+08 *(x - 0.002E-5) + -2.104;
-Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-6) +  3.17 ;
 
+Youngs_SA_E = @(x) 6.238e+07 *(x - 0.002E-5); %+ 38.84 ;
+Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-6); %+ 3.565 ;
+Youngs_RG_E = @(x) 1.115e+08 *(x - 0.002E-5); %+ -2.104;
+Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-6); %+  3.17 ;
+
+YM_SA_E = 6.238e+07;
+YM_SA_C = 2.876e+08;
+YM_RG_E = 1.115e+08;
+YM_RG_C = 2.509e+08;
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
 % the data point we have): we will determine them manually.
 
-% sample E Of RG has YS falls between 172.05 and 170.86 Mpa.
-% This corresponds to indice 122 123
+% sample E Of SA has YS falls between 183.52 and 183.869 Mpa.
+% This corresponds to indice 137 138
 
-YS_SA_E = median([Stress_SA_E(122),Stress_SA_E(123)]);
-
-
-% sample C Of SA has YS falls between 26.568 and 27.77 Mpa.
-% This corresponds to indice 23 and 24
-
-YS_SA_C = median([Stress_SA_C(23),Stress_SA_C(24)]);
+YS_SA_E = median([Stress_SA_E(137),Stress_SA_E(138)]);
 
 
+% sample C Of SA has YS falls between 31.399 and 32.582 Mpa.
+% This corresponds to indice 27 and 28
 
-% sample E Of RG has YS falls between 274.14 and 276.15 Mpa.
-% This corresponds to indice 132 and 133
-YS_RG_E = median([Stress_RG_E(132),Stress_RG_E(133)]);
+YS_SA_C = median([Stress_SA_C(27),Stress_SA_C(28)]);
 
 
 
-% sample C Of RG has YS falls between 30.6383 and 32.277 Mpa.
-% This corresponds to indice 22 and 23
-YS_RG_C = median([Stress_RG_C(22),Stress_RG_C(23)]);
+% sample E Of RG has YS falls between 269.76 and 271.87 Mpa.
+% This corresponds to indice 130 and 131
+
+YS_RG_E = median([Stress_RG_E(130),Stress_RG_E(131)]);
+
+
+
+% sample C Of RG has YS falls between 38.4469 and 39.97649 Mpa.
+% This corresponds to indice 27 and 28
+YS_RG_C = median([Stress_RG_C(27),Stress_RG_C(28)]);
 
 
 
@@ -276,14 +282,14 @@ set(linefit1,'LineWidth',2);
 hold on
 plot(Strain_SA_E(length(Strain_SA_E)), Stress_SA_E(length(Strain_SA_E)), 'r*')
 hold on
-plot(Strain_SA_E(122) , YS_SA_E, '*b')
+plot(Strain_SA_E(138) , YS_SA_E, '*b')
 hold on
 plot(Strain_SA_E(find(Stress_SA_E==TS_SA_E)), TS_SA_E, '*m')
 hold off
 
 
 grid minor
-xlabel('Strain (uniteless)');
+xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, SA ');
 legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength','Tensile Strength');
@@ -309,14 +315,14 @@ set(linefit2,'LineWidth',2);
 hold on
 plot( Strain_RG_E(492), FS_RG_E, 'r*')
 hold on
-plot(Strain_RG_E(132) , YS_RG_E, '*b')
+plot(Strain_RG_E(131) , YS_RG_E, '*b')
 hold on
 plot(Strain_RG_E(find(Stress_RG_E==TS_RG_E)), TS_RG_E, '*m')
 
 hold off
 
 grid minor
-xlabel('Strain (uniteless)');
+xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, RG ');
 legend('Raymie and Gera','Youngs mouduls', 'Fracture stress','Yield Strength','Tensile Strength');
@@ -337,22 +343,19 @@ linefit3 = ezplot(Youngs_SA_C,[ min(Strain_SA_C) max(Strain_SA_C) min(Stress_SA_
 set(linefit3,'LineWidth',2);
 
 hold on
-plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'r+')
+plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'ms')
 
 hold on
-plot(Strain_SA_C(23) , YS_SA_C, '*b')
-
-hold on
-TS = plot(Strain_SA_C(find(Stress_SA_C==TS_SA_C)), TS_SA_C, '*m')
+plot(Strain_SA_C(28) , YS_SA_C, '*b')
 
 
 hold off
 
 grid minor
-xlabel('Strain (uniteless)');
+xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)')
 title ('Stress Vs Strain, Sample C, SA ');
-legend('Sam and Abdulla','Youngs mouduls','Fracture stress','Yield Strength = TS','Tensile Strength = YS');
+legend('Sam and Abdulla','Youngs mouduls','Fracture stress = TS','Yield Strength');
 
 
 xlim([0 0.25e-5]);
@@ -370,19 +373,17 @@ linefit4 = ezplot(Youngs_RG_C,[ min(Strain_RG_C) max(Strain_RG_C) min(Stress_RG_
 set(linefit4,'LineWidth',2);
 
 hold on
-plot(Strain_RG_C(length(Strain_RG_C)), FS_RG_C , 'r+')
+plot(Strain_RG_C(length(Strain_RG_C)), FS_RG_C , 'sm')
 
 hold on
-plot(Strain_RG_C(22) , YS_RG_C, '*b')
+plot(Strain_RG_C(28) , YS_RG_C, '*b')
 
-hold on
-TS = plot(Strain_RG_C(find(Stress_RG_C==TS_RG_C)), TS_RG_C, '*m')
-
+hold off
 
 
-legend('Raymie and Gera','Youngs mouduls','Fracture stress','Yield Strength = TS','Tensile Strength = YS');
+legend('Raymie and Gera','Youngs mouduls','Fracture stress = TS','Yield Strength = TS');
 grid minor
-xlabel('Strain (uniteless)');
+xlabel('Strain (mm/mm)');
 ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample C, RG');
 
