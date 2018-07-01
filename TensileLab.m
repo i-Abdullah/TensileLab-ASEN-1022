@@ -119,6 +119,8 @@ Stress_RG_C(indi) = [];
 
 % Elminating the data where the grips are adjusting:
 
+% MIGH HAVE TO BE DONE MANUALLY FOR DIFFERENT DATA!
+
 indi = find(Stress_SA_E <= 100 & Stress_SA_E ~= 0 );
 Strain_SA_E(indi) = [];
 Stress_SA_E(indi) = [];
@@ -194,6 +196,14 @@ TS_RG_E = max(Stress_RG_E);
 TS_RG_C = max(Stress_RG_C);
 
 
+%___________________________________
+
+
+% THIS COMING PART YOU MIGHT HAVE TO DO MANUALLY!!
+
+%___________________________________
+
+
 %We will determine the best fit for the linear region of the data using the
 %curve fitting tool in MATLAB, we will exclude the non-linear regions by
 %the ruler tool in the curve fitting app.
@@ -246,7 +256,7 @@ YS_RG_C = median([Stress_RG_C(27),Stress_RG_C(28)]);
 FS_SA_E = Stress_SA_E(length(Strain_SA_E));
 FS_SA_C = Stress_SA_C(length(Strain_SA_C));
 FS_RG_C = Stress_RG_C(length(Strain_RG_C));
-FS_RG_E = Stress_RG_E(325);
+FS_RG_E = Stress_RG_E(492);
 
 
 %% PLOTS :
@@ -297,7 +307,7 @@ linefit2 = ezplot(Youngs_RG_E,[ min(Strain_RG_E) max(Strain_RG_E) min(Stress_RG_
 set(linefit2,'LineWidth',2);
 
 hold on
-plot( Strain_RG_E(325), FS_RG_E, 'r*')
+plot( Strain_RG_E(492), FS_RG_E, 'r*')
 hold on
 plot(Strain_RG_E(132) , YS_RG_E, '*b')
 hold on
@@ -385,6 +395,9 @@ hold off
 
 
 %% PRINTING OUT THE DATA:
+
+
+%Print the results on table
 
 Team_Sample = {'RG E' ; 'RG C' ; 'SA E' ; 'SA C'};
 YS_MPa = [ YS_RG_E ; YS_RG_C ; YS_SA_E ; YS_SA_C ];
