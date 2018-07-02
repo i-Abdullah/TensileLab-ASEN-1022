@@ -66,21 +66,6 @@ Strain_RG_E = ElongationE_RG .* 0.0254 ; % Calculating Strain ( Elongation / len
 Strain_RG_C = ElongationC_RG .* 0.0254 ; % Calculating Strain ( Elongation / length )
 
 
-%% OFFSETTING THE DATA
-
-% Our Extensometer was not zeroed, so we will offset the data of the strain
-
-% offset based on the first value
-
-%{
-    
-Strain_SA_C = Strain_SA_C - Strain_SA_C(1) ;
-Strain_SA_E = Strain_SA_E - Strain_SA_E(1) ; 
-Strain_RG_E = Strain_RG_E - Strain_RG_E(1) ; 
-Strain_RG_C = Strain_RG_C - Strain_RG_C(1) ;
-
-%}
-
 
 %% OFFSET THE DATA
 
@@ -304,10 +289,14 @@ ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, SA ');
 legend('Sam and Abdulla','Youngs modulus','Fracture stress','Yield Strength','Tensile Strength');
 
+xlim([Strain_SA_E(2) 9e-5]);
+ylim([Stress_SA_E(2) 310]);
 
 
+%{
 xlim([-1E-9 9e-5]);
 ylim([0 310]);
+%}
 
 %_______________________________
 
@@ -337,9 +326,14 @@ ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample E, RG ');
 legend('Raymie and Gera','Youngs modulus', 'Fracture stress','Yield Strength','Tensile Strength');
 
+xlim([Strain_RG_E(2) 6e-5]);
+ylim([Stress_RG_E(2) 310]);
 
+
+%{
 xlim([0 6e-5]);
 ylim([0 310]);
+%}
 
 %___________________________
 
@@ -368,9 +362,14 @@ title ('Stress Vs Strain, Sample C, SA ');
 legend('Sam and Abdulla','Youngs modulus','Fracture stress = TS','Yield Strength');
 
 
+xlim([Strain_SA_C(2) 0.30e-5]);
+ylim([Stress_SA_C(2) 170]);
+
+
+%{
 xlim([0 0.30e-5]);
 ylim([0 170]);
-
+%}
 
 
 % FORTH PLOT
@@ -398,8 +397,13 @@ ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample C, RG');
 
 
+xlim([Strain_RG_C(2) 0.30e-5]);
+ylim([Stress_RG_C(2) 170]);
+
+%{
 xlim([0 0.30e-5]);
 ylim([0 170]);
+%}
 
 hold off
 
