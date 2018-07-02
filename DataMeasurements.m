@@ -40,7 +40,7 @@ ElongationE_RG = RG_SampleE(:,2); % Extracting Elongation
 
 % Saving data as .mat file
 
-save('Group4_Ductile.mat')
+save('Group3_Ductile.mat')
 
 
 
@@ -81,5 +81,5 @@ ElongationC_RG = SA_SampleC(:,2); % Extracting Elongation
 
 % Saving data as .mat file
 
-save('Group4_Brittle.mat')
+save('Group3_Brittle.mat')
 

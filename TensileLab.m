@@ -16,8 +16,8 @@ clc
 close all
 
 
-load('Group4_Brittle.mat') % Importing data.
-load('Group4_Ductile.mat') %Importing data
+load('Group3_Brittle.mat') % Importing data.
+load('Group3_Ductile.mat') %Importing data
 
 
 %________________________
