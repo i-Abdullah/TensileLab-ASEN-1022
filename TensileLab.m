@@ -229,40 +229,40 @@ TS_RG_C = max(Stress_RG_C);
 
 Youngs_SA_E = @(x) 8.208e+07 *(x - 0.002E-5); %+ 52.19 ;
 Youngs_SA_C = @(x) 2.022e+08 *(x - 0.002E-6); %+ 10.98 ;
-Youngs_RG_E = @(x) 8.324e+07 *(x - 0.002E-5); %+ 2.853 ;
+Youngs_RG_E = @(x) 8.203e+07 *(x - 0.002E-5); %+ 5.847 ;
 Youngs_RG_C = @(x) 2.072e+08 *(x - 0.002E-6); %+  10.42;
 
-YM_SA_E = 6.238e+07;
-YM_SA_C = 2.876e+08;
-YM_RG_E = 1.115e+08;
-YM_RG_C = 2.509e+08;
+YM_SA_E = 8.208e+07;
+YM_SA_C = 2.022e+08;
+YM_RG_E = 8.324e+07;
+YM_RG_C = 2.072e+08;
 
 % Determine the Y.S (where the offeseted Youngs moudule by 0.2% intersect
 % the data point we have): we will determine them manually.
 
-% sample E Of SA has YS falls between 183.52 and 183.869 Mpa.
-% This corresponds to indice 137 138
+% sample E Of SA has YS falls between 278.30 and 278.739 Mpa.
+% This corresponds to indice 157 158
 
-YS_SA_E = median([Stress_SA_E(137),Stress_SA_E(138)]);
-
-
-% sample C Of SA has YS falls between 31.399 and 32.582 Mpa.
-% This corresponds to indice 27 and 28
-
-YS_SA_C = median([Stress_SA_C(27),Stress_SA_C(28)]);
+YS_SA_E = median([Stress_SA_E(157),Stress_SA_E(158)]);
 
 
+% sample C Of SA has YS falls between 95.47 and 96.866 Mpa.
+% This corresponds to indice 47 and 48
 
-% sample E Of RG has YS falls between 269.76 and 271.87 Mpa.
-% This corresponds to indice 130 and 131
-
-YS_RG_E = median([Stress_RG_E(130),Stress_RG_E(131)]);
+YS_SA_C = median([Stress_SA_C(47),Stress_SA_C(48)]);
 
 
 
-% sample C Of RG has YS falls between 38.4469 and 39.97649 Mpa.
-% This corresponds to indice 27 and 28
-YS_RG_C = median([Stress_RG_C(27),Stress_RG_C(28)]);
+% sample E Of RG has YS falls between 267.094512 and 268.354 Mpa.
+% This corresponds to indice 133 and 132
+
+YS_RG_E = median([Stress_RG_E(132),Stress_RG_E(133)]);
+
+
+
+% sample C Of RG has YS falls between 93.4769 and 94.6345 Mpa.
+% This corresponds to indice 37 and 38
+YS_RG_C = median([Stress_RG_C(37),Stress_RG_C(38)]);
 
 
 
@@ -292,7 +292,7 @@ set(linefit1,'LineWidth',2);
 hold on
 plot(Strain_SA_E(length(Strain_SA_E)), Stress_SA_E(length(Strain_SA_E)), 'r*')
 hold on
-plot(Strain_SA_E(138) , YS_SA_E, '*b')
+plot(Strain_SA_E(157) , YS_SA_E, '*b')
 hold on
 plot(Strain_SA_E(find(Stress_SA_E==TS_SA_E)), TS_SA_E, '*m')
 hold off
@@ -325,7 +325,7 @@ set(linefit2,'LineWidth',2);
 hold on
 plot( Strain_RG_E(492), FS_RG_E, 'r*')
 hold on
-plot(Strain_RG_E(131) , YS_RG_E, '*b')
+plot(Strain_RG_E(132) , YS_RG_E, '*b')
 hold on
 plot(Strain_RG_E(find(Stress_RG_E==TS_RG_E)), TS_RG_E, '*m')
 
@@ -356,7 +356,7 @@ hold on
 plot(Strain_SA_C(length(Strain_SA_C)), FS_SA_C , 'ms')
 
 hold on
-plot(Strain_SA_C(28) , YS_SA_C, '*b')
+plot(Strain_SA_C(47) , YS_SA_C, '*b')
 
 
 hold off
@@ -368,8 +368,8 @@ title ('Stress Vs Strain, Sample C, SA ');
 legend('Sam and Abdulla','Youngs modulus','Fracture stress = TS','Yield Strength');
 
 
-xlim([0 0.25e-5]);
-ylim([0 130]);
+xlim([0 0.30e-5]);
+ylim([0 170]);
 
 
 
@@ -386,7 +386,7 @@ hold on
 plot(Strain_RG_C(length(Strain_RG_C)), FS_RG_C , 'sm')
 
 hold on
-plot(Strain_RG_C(28) , YS_RG_C, '*b')
+plot(Strain_RG_C(37) , YS_RG_C, '*b')
 
 hold off
 
@@ -398,8 +398,8 @@ ylabel('Stress (MPa)');
 title ('Stress Vs Strain, Sample C, RG');
 
 
-xlim([0 0.25e-5]);
-ylim([0 150]);
+xlim([0 0.30e-5]);
+ylim([0 170]);
 
 hold off
 
