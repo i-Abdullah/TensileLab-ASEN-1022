@@ -72,10 +72,33 @@ Strain_RG_C = ElongationC_RG .* 0.0254 ; % Calculating Strain ( Elongation / len
 
 % offset based on the first value
 
+%{
+    
 Strain_SA_C = Strain_SA_C - Strain_SA_C(1) ;
 Strain_SA_E = Strain_SA_E - Strain_SA_E(1) ; 
 Strain_RG_E = Strain_RG_E - Strain_RG_E(1) ; 
 Strain_RG_C = Strain_RG_C - Strain_RG_C(1) ;
+
+%}
+
+
+%% OFFSET THE DATA
+
+% offset everything so the data starts at 0,0
+
+
+Strain_SA_E = Strain_SA_E - Strain_SA_E(1);
+Strain_SA_C = Strain_SA_C - Strain_SA_C(1);
+Strain_RG_E = Strain_RG_E - Strain_RG_E(1);
+Strain_RG_C = Strain_RG_C - Strain_RG_C(1);
+
+
+Stress_SA_E = Stress_SA_E - Stress_SA_E(1);
+Stress_SA_C = Stress_SA_C - Stress_SA_C(1);
+Stress_RG_E = Stress_RG_E - Stress_RG_E(1);
+Stress_RG_C = Stress_RG_C - Stress_RG_C(1);
+
+
 
 %% Elminating the data that caues noise
 
@@ -121,11 +144,13 @@ Stress_RG_C(indi) = [];
 
 % MIGH HAVE TO BE DONE MANUALLY FOR DIFFERENT DATA!
 
-indi = find(Stress_SA_E <= 100 & Stress_SA_E ~= 0 );
+
+
+indi = find(Stress_SA_E <= 70 & Stress_SA_E ~= 0 );
 Strain_SA_E(indi) = [];
 Stress_SA_E(indi) = [];
 
-indi = find(Stress_SA_C <= 45 & Stress_SA_C ~= 0 );
+indi = find(Stress_SA_C <= 40 & Stress_SA_C ~= 0 );
 Strain_SA_C(indi) = [];
 Stress_SA_C(indi) = [];
 
@@ -133,24 +158,9 @@ indi = find(Stress_RG_E <= 40 &  Stress_RG_E ~= 0 );
 Strain_RG_E(indi) = [];
 Stress_RG_E(indi) = [];
 
-indi = find(Stress_RG_C <= 70 & Stress_RG_C ~= 0 );
+indi = find(Stress_RG_C <= 50 & Stress_RG_C ~= 0 );
 Strain_RG_C(indi) = [];
 Stress_RG_C(indi) = [];
-
-
-% offset everything so the data starts at 0,0
-
-
-Strain_SA_E = Strain_SA_E - Strain_SA_E(1);
-Strain_SA_C = Strain_SA_C - Strain_SA_C(1);
-Strain_RG_E = Strain_RG_E - Strain_RG_E(1);
-Strain_RG_C = Strain_RG_C - Strain_RG_C(1);
-
-Stress_SA_E = Stress_SA_E - Stress_SA_E(1);
-Stress_SA_C = Stress_SA_C - Stress_SA_C(1);
-Stress_RG_E = Stress_RG_E - Stress_RG_E(1);
-Stress_RG_C = Stress_RG_C - Stress_RG_C(1);
-
 
 
 
@@ -217,10 +227,10 @@ TS_RG_C = max(Stress_RG_C);
 % BEST LINE EQUATIONS;
 
 
-Youngs_SA_E = @(x) 6.238e+07 *(x - 0.002E-5); %+ 38.84 ;
-Youngs_SA_C = @(x) 2.876e+08 *(x - 0.002E-6); %+ 3.565 ;
-Youngs_RG_E = @(x) 1.115e+08 *(x - 0.002E-5); %+ -2.104;
-Youngs_RG_C = @(x) 2.509e+08 *(x - 0.002E-6); %+  3.17 ;
+Youngs_SA_E = @(x) 8.208e+07 *(x - 0.002E-5); %+ 52.19 ;
+Youngs_SA_C = @(x) 2.022e+08 *(x - 0.002E-6); %+ 10.98 ;
+Youngs_RG_E = @(x) 8.324e+07 *(x - 0.002E-5); %+ 2.853 ;
+Youngs_RG_C = @(x) 2.072e+08 *(x - 0.002E-6); %+  10.42;
 
 YM_SA_E = 6.238e+07;
 YM_SA_C = 2.876e+08;
@@ -297,7 +307,7 @@ legend('Sam and Abdulla','Youngs modulus','Fracture stress','Yield Strength','Te
 
 
 xlim([-1E-9 9e-5]);
-ylim([0 210]);
+ylim([0 310]);
 
 %_______________________________
 
@@ -329,7 +339,7 @@ legend('Raymie and Gera','Youngs modulus', 'Fracture stress','Yield Strength','T
 
 
 xlim([0 6e-5]);
-ylim([0 400]);
+ylim([0 310]);
 
 %___________________________
 

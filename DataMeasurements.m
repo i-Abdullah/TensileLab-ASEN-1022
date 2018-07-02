@@ -29,7 +29,7 @@ ElongationE_SA = SA_SampleE(:,2); % Extracting Elongation
 WidthRG_E = [ 12.7 12.7 ] .* 10^-3 ; %Measured width of sample(IN mm) 
 WidthRG_E = mean(WidthRG_E); %Averaging width 
 
-ThicknessRG_E = [ 3.8 3.8 ] * 10^-3; %Measured thickness of sample (In mm)
+ThicknessRG_E = [ 4.65 4.70 ] * 10^-3; %Measured thickness of sample (In mm)
 ThicknessRG_E = mean(ThicknessRG_E); %Averaging thickness
 
 
@@ -68,7 +68,7 @@ ElongationC_SA = SA_SampleC(:,2); % Extracting Elongation
 WidthRG_C = [ 12.7 12.7 ] .* 10^-3 ; %Measured width of sample(IN mm) 
 WidthRG_C = mean(WidthRG_C); %Averaging width 
 
-ThicknessRG_C = [ 3.8 3.8 ] * 10^-3; %Measured thickness of sample (In mm)
+ThicknessRG_C = [ 4.65 4.70 ] .* 10^-3; %Measured thickness of sample (In mm)
 ThicknessRG_C = mean(ThicknessRG_C); %Averaging thickness
 
 
