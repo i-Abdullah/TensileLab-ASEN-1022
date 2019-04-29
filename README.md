@@ -38,7 +38,7 @@ Our group has been **divided into two groups.** Each group tested two samples of
 ***
 
 
-The Lab instructions is from the course page provided by our course instructor, *Jelliffe Jackson*, **All rights are reserved to him and to CU Aerospace engineering department.**
+The Lab instructions is from the course page provided by our course instructor, *Dr. Jelliffe Jackson*, **All rights are reserved to him and to CU Aerospace engineering department.**
 
 
 ##### References 
